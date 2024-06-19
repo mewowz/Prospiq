@@ -18,25 +18,25 @@ def record_to_file(path, pos_data, overwrite=False):
     """
     if os.path.exists(path) is False:
         np.save(path, pos_data)
-        return 1
+        return True
     else:
         if overwrite == True:
             np.save(path, pos_data)
-            return 1
+            return True
         else:
-            return 0
+            return False
 
 
 def load_datafile(path):
     """
-    Loads a numpy file from `path` and returns it as an array or -1 
+    Loads a numpy file from `path` and returns it as an array or False 
     if the file does not exist.
     """
     if os.path.exists(path):
         dataset = np.load(path)
         return dataset
     else:
-        return -1
+        return False
 
     
 

@@ -1,9 +1,10 @@
 import cv2
 #from realsense_depth import *
-from camera_view import *
-from simulation_view import *
-import position_calc as pc
-import depthai_depth as dd
+#from camera_view import *
+from viewer.camera_view import *
+from viewer.simulation_view import *
+import utils.position_calc as pc
+import utils.depthai_depth as dd
 import CONFIG
 
 # Prepare CONFIG for use across all other modules
@@ -11,17 +12,16 @@ CONFIG.setup_config()
 conf = CONFIG.config
 
 #CAP_RES = (1280, 720)
-CAP_RES = (conf['Camera']['width'], conf['Camera']['height'])
+CAP_RESOLUTION = (conf['Camera']['width'], conf['Camera']['height'])
 CAP_RGB_FR = conf['Camera']['rgb_framerate']
-CAP_STE_FR = conf['Camera']['stereo_framerate']
-SIM_RES = (conf['Simulation']['width'], conf['Simulation']['height'])
+CAP_STEREO_FR = conf['Camera']['stereo_framerate']
+SIM_RESOLUTION = (conf['Simulation']['width'], conf['Simulation']['height'])
 
 
 if __name__ == '__main__':
-    # cap = DepthCamera(CAP_RES, 30, 30)
-    cap = dd.OakDepthCam(CAP_RES, colorFps=CAP_RGB_FR, stereoFps=CAP_STE_FR)
+    cap = dd.OakDepthCam(CAP_RESOLUTION, colorFps=CAP_RGB_FR, stereoFps=CAP_STEREO_FR)
     detector = PersonDetector(cap, device=conf['YOLO']['Architecture'])
-    simulator = TargetViewer(SIM_RES)
+    simulator = TargetViewer(SIM_RESOLUTION)
     mtde = pc.MultiTargetDepthEstimator(5)
     while True:
         start_time = time()
